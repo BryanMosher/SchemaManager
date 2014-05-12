@@ -18,14 +18,15 @@ namespace SchemaManager.Core
 			       select trimmedBatch;
 		}
 
+        protected abstract int Timeout { get; set; }
+
 		protected void RunAllBatchesFromText(IDbContext context, string script)
 		{
 			foreach (var sqlBatch in GetBatchesFrom(script))
 			{
 				using (var command = context.CreateCommand())
 				{
-					//TODO: Is this safe?  30 minutes is a heck of a timeout...
-					command.CommandTimeout = (int) TimeSpan.FromMinutes(30).TotalSeconds;
+					command.CommandTimeout = (int) TimeSpan.FromMinutes(Timeout).TotalSeconds;
 
 					command.CommandText = sqlBatch;
 

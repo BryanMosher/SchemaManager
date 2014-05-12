@@ -26,7 +26,7 @@ namespace SchemaManager.Tests.IntegrationTests
 			{
 				_context = new DbContext(ConnectionString);
 				SUT = new DatabaseUpdater(new NullAlwaysRunScriptsProvider(),
-				                          new FileSystemSchemaChangeProvider(TestScriptPath), new NullLogger(), 
+                                          new FileSystemSchemaChangeProvider(TestScriptPath, SchemaManagerGlobalOptions.Defaults), new NullLogger(), 
 				                          new SqlServerDatabase(_context), SchemaManagerGlobalOptions.Defaults);
 			}
 
@@ -76,7 +76,7 @@ namespace SchemaManager.Tests.IntegrationTests
 				options.UseIncrementalTransactions = true;
 				_context = new DbContext(ConnectionString);
 				SUT = new DatabaseUpdater(new NullAlwaysRunScriptsProvider(),
-											new FileSystemSchemaChangeProvider(TestScriptPath), new NullLogger(), 
+                                            new FileSystemSchemaChangeProvider(TestScriptPath, SchemaManagerGlobalOptions.Defaults), new NullLogger(), 
 											new SqlServerDatabase(_context), options);
 			}
 

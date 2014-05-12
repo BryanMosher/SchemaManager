@@ -8,16 +8,16 @@ namespace SchemaManager.Core
 	{
 		private const string BackFile = "Back.sql";
 		private const string ForwardFile = "Forward.sql";
-
-		public string PathToSchemaChangeFolder { get; private set; }
+	    public string PathToSchemaChangeFolder { get; private set; }
 		public DatabaseVersion Version { get; private set; }
 		public DatabaseVersion PreviousVersion { get; private set; }
 
-		public SchemaChange(string pathToSchemaChangeFolder, DatabaseVersion version, DatabaseVersion previousVersion)
+		public SchemaChange(string pathToSchemaChangeFolder, DatabaseVersion version, DatabaseVersion previousVersion, int timeout)
 		{
 			PathToSchemaChangeFolder = pathToSchemaChangeFolder;
 			Version = version;
 			PreviousVersion = previousVersion;
+		    Timeout = timeout;
 		}
 
 		public void Execute(IDbContext context)
@@ -39,5 +39,7 @@ namespace SchemaManager.Core
 		{
 			return database.Revision >= Version;
 		}
+
+	    protected override int Timeout { get; set; }
 	}
 }

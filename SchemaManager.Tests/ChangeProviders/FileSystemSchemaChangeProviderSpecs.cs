@@ -116,7 +116,7 @@ namespace SchemaManager.Tests.ChangeProviders
 						testScriptPath = @"TestScripts\ChangeScripts";
 					}
 
-					container.Configure(cfg => cfg.For<FileSystemSchemaChangeProvider>().Use(ctx => new FileSystemSchemaChangeProvider(testScriptPath)));
+                    container.Configure(cfg => cfg.For<FileSystemSchemaChangeProvider>().Use(ctx => new FileSystemSchemaChangeProvider(testScriptPath, SchemaManagerGlobalOptions.Defaults)));
 				}
 			}
 		}

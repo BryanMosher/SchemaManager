@@ -19,7 +19,7 @@ Line 3";
 
 			protected override void InitializeClassUnderTest()
 			{
-				SUT = new SimpleScript(Script);
+				SUT = new SimpleScript(Script, 30);
 			}
 
 			protected override void Given()

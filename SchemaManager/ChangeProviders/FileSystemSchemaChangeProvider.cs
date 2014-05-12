@@ -11,10 +11,12 @@ namespace SchemaManager.ChangeProviders
 	public class FileSystemSchemaChangeProvider : IProvideSchemaChanges
 	{
 		private readonly string _pathToSchemaScripts;
+	    private readonly SchemaManagerGlobalOptions _globalOptions;
 
-		public FileSystemSchemaChangeProvider(string pathToSchemaScripts)
+		public FileSystemSchemaChangeProvider(string pathToSchemaScripts, SchemaManagerGlobalOptions globalOptions)
 		{
 			_pathToSchemaScripts = pathToSchemaScripts;
+		    _globalOptions = globalOptions;
 		}
 
 		private static bool IsSchemaChangeFolder(string directory)
@@ -45,13 +47,12 @@ namespace SchemaManager.ChangeProviders
 		public IEnumerable<ISchemaChange> GetAllChanges()
 		{
 			var previousVersion = new DatabaseVersion(1, 0, 0, 0);
-
 			return (from majorVersionFolder in Directory.GetDirectories(_pathToSchemaScripts).Where(d => IsVersionFolder(d))
 			        let majorVersion = GetMajorVersion(majorVersionFolder)
 			        from schemaChangeFolder in Directory.GetDirectories(majorVersionFolder).Where(d => IsSchemaChangeFolder(d))
 			        let minorVersion = GetMinorVersion(schemaChangeFolder)
 			        let currentVersion = DatabaseVersion.FromString(majorVersion + "." + minorVersion)
-					select new SchemaChange(Path.GetFullPath(schemaChangeFolder), currentVersion, previousVersion))
+					select new SchemaChange(Path.GetFullPath(schemaChangeFolder), currentVersion, previousVersion, (int)_globalOptions.Timeout.TotalSeconds))
 					.Do(s => previousVersion = s.Version)
 					.OrderBy(s => s.Version)
 					.Cast<ISchemaChange>();

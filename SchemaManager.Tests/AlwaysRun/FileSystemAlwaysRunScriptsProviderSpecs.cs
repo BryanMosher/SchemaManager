@@ -15,7 +15,7 @@ namespace SchemaManager.Tests.AlwaysRun
 
 			protected override void InitializeClassUnderTest()
 			{
-				SUT = new FileSystemAlwaysRunScriptsProvider(@"TestScripts\AlwaysRunScripts\");
+                SUT = new FileSystemAlwaysRunScriptsProvider(@"TestScripts\AlwaysRunScripts\", SchemaManagerGlobalOptions.Defaults);
 			}
 
 			protected override void When()

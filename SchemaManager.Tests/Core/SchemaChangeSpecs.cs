@@ -153,8 +153,8 @@ namespace SchemaManager.Tests.Core
 				protected override void ConfigureContainer(IContainer container)
 				{
 					base.ConfigureContainer(container);
-
-					container.Configure(cfg => cfg.For<SchemaChange>().Use(new SchemaChange(Directory.GetCurrentDirectory(), new DatabaseVersion(), new DatabaseVersion())));
+				    var timeout = (int)SchemaManagerGlobalOptions.Defaults.Timeout.TotalSeconds;
+                    container.Configure(cfg => cfg.For<SchemaChange>().Use(new SchemaChange(Directory.GetCurrentDirectory(), new DatabaseVersion(), new DatabaseVersion(), timeout)));
 				}
 
 				protected override void Given()
